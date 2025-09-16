@@ -86,7 +86,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-white font-semibold shadow-md hover:scale-105 transition-transform disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 cursor-pointer rounded-lg bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-white font-semibold shadow-md hover:scale-105 transition-transform disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>
@@ -101,4 +101,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
 
