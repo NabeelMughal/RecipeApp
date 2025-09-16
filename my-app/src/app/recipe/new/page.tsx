@@ -15,6 +15,8 @@ function RecipeForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const categoryName = searchParams.get("name");
+
   // Redirect if categoryId is missing
   useEffect(() => {
     if (!categoryId) {
@@ -51,7 +53,9 @@ function RecipeForm() {
       }
       
       toast.success("Recipe created successfully!");
-      window.location.href = `/category/${categoryId}`;
+      window.location.href = `/category/${categoryId}?name=${encodeURIComponent(categoryName || "")}`;
+
+
 
     } catch (err: any) {
       setError(err.message);
@@ -66,7 +70,7 @@ function RecipeForm() {
       <div className="max-w-lg mx-auto space-y-6">
         <button
           onClick={() => window.history.back()}
-          className="p-3 rounded-full bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] shadow-md hover:scale-105 transition-transform flex items-center text-white"
+          className="px-4 py-2 mb-4 cursor-pointer rounded-md bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] shadow-md hover:scale-105 transition-transform flex items-center text-white"
         >
           ← Back
         </button>
@@ -84,7 +88,7 @@ function RecipeForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Recipe name"
-            className="w-full p-3 rounded-md border border-[#E0AB8B]/50 bg-[#fffdfc]/70 text-[#4a2c1a] placeholder-[#a88570] focus:ring-2 focus:ring-[#E0AB8B]"
+            className="w-full px-3 py-2 rounded-md bg-[#fff2ea] border border-[#E0AB8B]/40 text-sm text-[#4a2c1a] placeholder-[#a88570] focus:outline-none focus:ring-2 focus:ring-[#E0AB8B]"
           />
 
           <textarea
@@ -92,11 +96,11 @@ function RecipeForm() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
             rows={4}
-            className="w-full p-3 rounded-md border border-[#E0AB8B]/50 bg-[#fffdfc]/70 text-[#4a2c1a] placeholder-[#a88570] focus:ring-2 focus:ring-[#E0AB8B]"
+            className="w-full px-3 py-2 rounded-md bg-[#fff2ea] border border-[#E0AB8B]/40 text-sm text-[#4a2c1a] placeholder-[#a88570] focus:outline-none focus:ring-2 focus:ring-[#E0AB8B]"
           />
 
           {/* Upload field */}
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#E0AB8B]/60 rounded-lg cursor-pointer bg-[#fffdfc]/70 hover:bg-[#fbe6da] transition">
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#E0AB8B]/60 hover:border-[#E0AB8B] rounded-lg cursor-pointer bg-[#fff2ea]/70 hover:bg-[#fbe6da]/70 transition">
             <Upload className="w-8 h-8 text-[#c97c54] mb-2" />
             <span className="text-sm text-[#7a5c49]">
               {imageFile ? imageFile.name : "Click to upload image"}
@@ -114,7 +118,7 @@ function RecipeForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-md bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-white font-medium shadow-md hover:scale-105 transition-transform disabled:opacity-50"
+            className="w-full py-3 rounded-md cursor-pointer bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-white font-medium shadow-md hover:scale-105 transition-transform disabled:opacity-50"
           >
             {loading ? "Saving..." : "Save Recipe"}
           </button>
