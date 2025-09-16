@@ -108,14 +108,18 @@ export default function Home() {
              initial={{ opacity: 0, y: -20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.6 }}
-             className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#E0AB8B] via-[#c97c54] to-[#a85f3c]"
+             className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#E0AB8B] via-[#c97c54] to-[#a85f3c]"
            >
              My Categories
            </motion.h1>
            <button 
                onClick={handleLogout}
-               className="px-4 py-2 rounded-md bg-transparent border border-[#c97c54] text-[#c97c54] text-sm font-semibold hover:bg-[#c97c54] hover:text-white transition-colors"
+               className="bg-gradient-to-br from-[#fff2ea] to-[#f6d4c4] hover:scale-105 transition-transform px-4 py-2 cursor-pointer rounded-md flex items-center justify-center gap-2 bg-transparent border border-[#c97c54] text-[#c97c54] text-sm font-semibold hover:bg-[#c97c54] "
            >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+            </svg>
+
                Logout
            </button>
          </header>
@@ -134,7 +138,7 @@ export default function Home() {
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-md bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-sm font-semibold shadow-md hover:scale-105 transition-transform"
+            className="px-4 py-2 rounded-md cursor-pointer text-white bg-gradient-to-r from-[#E0AB8B] to-[#c97c54] text-sm font-semibold shadow-md hover:scale-105 transition-transform"
           >
             Add
           </button>
@@ -172,7 +176,7 @@ export default function Home() {
                     className="bg-gradient-to-br from-[#fff2ea] to-[#f6d4c4] p-5 rounded-2xl text-center font-semibold shadow-md cursor-pointer border border-[#E0AB8B]/60"
                     style={{ transformStyle: "preserve-3d" }}
                   >
-                    <Link href={`/category/${cat._id}`} className="flex flex-col items-center justify-center gap-2">
+                    <Link href={`/category/${cat._id}?name=${encodeURIComponent(cat.name)}`} className="flex flex-col items-center justify-center gap-2">
                       <UtensilsCrossed className="w-6 h-6 text-[#c97c54]" />
                       <span className="block text-lg tracking-wide text-[#5a3725]">
                         {cat.name}
