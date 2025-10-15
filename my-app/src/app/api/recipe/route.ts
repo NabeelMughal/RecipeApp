@@ -4,6 +4,12 @@ import RecipeModel from "@/models/recipe.model";
 import cloudinary from "@/lib/cloudinary.config";
 import { getDataFromToken } from "@/helpers/jwt.helper";
 
+export const config = {
+  api: {
+    bodyParser: false, // allow streaming FormData
+  },
+};
+
 // Stream upload helper - No changes needed here
 async function uploadToCloudinary(file: File) {
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -103,4 +109,5 @@ export async function PATCH(req: NextRequest) {
     { status: 405 } // Method Not Allowed
   );
 }
+
 
