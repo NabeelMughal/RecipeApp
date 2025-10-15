@@ -26,44 +26,51 @@ function RecipeForm() {
   }, [categoryId]);
 
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    if (!name.trim()) return setError("Please enter a recipe name");
-    if (!imageFile) return setError("Please upload an image");
-    if (!categoryId) return setError("Category ID is missing");
+ async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setError("");
+  if (!name.trim()) return setError("Please enter a recipe name");
+  if (!imageFile) return setError("Please upload an image");
+  if (!categoryId) return setError("Category ID is missing");
 
-    setLoading(true);
+  setLoading(true);
 
+  try {
+    const formData = new FormData();
+    formData.append("name", name.trim());
+    formData.append("description", description.trim());
+    formData.append("categoryId", categoryId);
+    formData.append("file", imageFile);
+
+    const res = await fetch("/api/recipe", {
+      method: "POST",
+      body: formData,
+    });
+
+    let payload;
     try {
-      const formData = new FormData();
-      formData.append("name", name.trim());
-      formData.append("description", description.trim());
-      formData.append("categoryId", categoryId);
-      formData.append("file", imageFile);
-
-      const res = await fetch("/api/recipe", {
-        method: "POST",
-        body: formData,
-      });
-      const payload = await res.json();
-
-      if (!payload.success) {
-        throw new Error(payload.message || "Failed to create recipe");
-      }
-      
-      toast.success("Recipe created successfully!");
-      window.location.href = `/category/${categoryId}?name=${encodeURIComponent(categoryName || "")}`;
-
-
-
-    } catch (err: any) {
-      setError(err.message);
-      toast.error(err.message || "An error occurred.");
-    } finally {
-      setLoading(false);
+      payload = await res.json();
+    } catch (e) {
+      const text = await res.text();
+      console.error("Non-JSON response:", text);
+      throw new Error(text || "Server did not return valid JSON");
     }
+
+    if (!payload.success) {
+      throw new Error(payload.message || "Failed to create recipe");
+    }
+
+    toast.success("Recipe created successfully!");
+    window.location.href = `/category/${categoryId}?name=${encodeURIComponent(categoryName || "")}`;
+
+  } catch (err: any) {
+    setError(err.message);
+    toast.error(err.message || "An error occurred.");
+  } finally {
+    setLoading(false);
   }
+}
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#ffeee7] via-[#fff4ef] to-[#ffeee7] p-6 text-[#4a2c1a]">
@@ -135,3 +142,4 @@ export default function NewRecipePage() {
     </Suspense>
   );
 }
+
