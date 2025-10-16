@@ -19,6 +19,7 @@ export interface IRecipe extends Document {
   createdAt: Date;
   updatedAt: Date;
   userId: mongoose.Schema.Types.ObjectId;
+  gallery: { url: string; public_id: string }[];
 }
 
 const NoteSchema = new Schema<INote>({
@@ -51,6 +52,7 @@ const RecipeSchema = new Schema<IRecipe>(
     },
     likes: { type: Number, default: 0, min: 0 },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    gallery: [{ url: String, public_id: String }],
   },
   { timestamps: true }
 );
