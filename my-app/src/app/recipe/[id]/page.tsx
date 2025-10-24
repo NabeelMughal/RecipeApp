@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2, Upload, X, Pin } from "lucide-react";
+import { Trash2, Upload, X, Pin, Eye } from "lucide-react"; // --- MODIFICATION: Added 'Eye' icon
 
 type Recipe = {
   _id: string;
@@ -40,6 +40,7 @@ export default function RecipeDetailPage() {
   const [descValue, setDescValue] = useState("");
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false); // --- MODIFICATION: State for new modal
 
   useEffect(() => {
     if (!id) return;
@@ -183,7 +184,6 @@ export default function RecipeDetailPage() {
               transition={{ duration: 0.6 }}
               className="w-full h-72 object-cover rounded-2xl shadow-lg border border-[#E0AB8B]/40"
             />
-            {/* --- MODIFICATION: Replaced hover overlay with always-visible button --- */}
             <label
               className="absolute top-2 right-2 flex items-center justify-center bg-black/60 text-white rounded-full p-3 cursor-pointer hover:bg-black/80 transition-all"
               title="Upload new main image"
@@ -197,7 +197,6 @@ export default function RecipeDetailPage() {
                 disabled={isSubmitting}
               />
             </label>
-            {/* --- END MODIFICATION --- */}
           </div>
 
           <section className="bg-[#FFEEE7] p-5 rounded-xl shadow-md border border-[#E0AB8B]/40">
@@ -214,7 +213,6 @@ export default function RecipeDetailPage() {
                     className="w-full h-full object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-[#c97c54]"
                     onClick={() => setSelectedImage(img.url)}
                   />
-                  {/* --- MODIFICATION: Made controls visible on mobile, hover on desktop --- */}
                   <div className="absolute top-1 right-1 flex flex-col gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <button
                       disabled={isSubmitting}
@@ -240,7 +238,6 @@ export default function RecipeDetailPage() {
                       <Pin size={14} />
                     </button>
                   </div>
-                  {/* --- END MODIFICATION --- */}
                 </div>
               ))}
               <label
@@ -298,24 +295,28 @@ export default function RecipeDetailPage() {
                 </svg>
               </button>
             </div>
+            
+            {/* --- MODIFICATION: Fixed description overflow --- */}
             <div className="flex justify-between items-start bg-[#FFEEE7] rounded-md shadow-md p-3">
-              {isEditingDescription ? (
-                <textarea
-                  value={descValue}
-                  onChange={(e) => setDescValue(e.target.value)}
-                  onBlur={() => {
-                    setIsEditingDescription(false);
-                    updateRecipe({ description: descValue });
-                  }}
-                  className="w-full p-2 bg-transparent border-b-2 border-[#E0AB8B] focus:outline-none text-[#5C3D2E] min-h-[100px]"
-                  autoFocus
-                />
-              ) : (
-                <p className="text-[#5C3D2E] leading-relaxed w-full">
-                  {recipe.description ||
-                    "No description provided. Click the edit icon to add one!"}
-                </p>
-              )}
+              <div className="flex-1 min-w-0">
+                {isEditingDescription ? (
+                  <textarea
+                    value={descValue}
+                    onChange={(e) => setDescValue(e.target.value)}
+                    onBlur={() => {
+                      setIsEditingDescription(false);
+                      updateRecipe({ description: descValue });
+                    }}
+                    className="w-full p-2 bg-transparent border-b-2 border-[#E0AB8B] focus:outline-none text-[#5C3D2E] min-h-[100px]"
+                    autoFocus
+                  />
+                ) : (
+                  <p className="text-[#5C3D2E] leading-relaxed w-full break-words">
+                    {recipe.description ||
+                      "No description provided. Click the edit icon to add one!"}
+                  </p>
+                )}
+              </div>
               <button
                 onClick={() => setIsEditingDescription((p) => !p)}
                 className="text-[#E0AB8B] cursor-pointer ml-4 flex-shrink-0"
@@ -336,6 +337,8 @@ export default function RecipeDetailPage() {
                 </svg>
               </button>
             </div>
+            {/* --- END MODIFICATION --- */}
+            
             <button
               onClick={() => updateRecipe({ action: "like" })}
               disabled={isSubmitting}
@@ -356,7 +359,6 @@ export default function RecipeDetailPage() {
                   className="flex justify-between items-center group bg-white/50 p-2 rounded"
                 >
                   <span>- {item}</span>
-                  {/* --- MODIFICATION: Made delete visible on mobile, hover on desktop --- */}
                   <button
                     disabled={isSubmitting}
                     onClick={() =>
@@ -366,7 +368,6 @@ export default function RecipeDetailPage() {
                   >
                     <Trash2 size={16} />
                   </button>
-                  {/* --- END MODIFICATION --- */}
                 </li>
               ))}
             </ul>
@@ -403,7 +404,6 @@ export default function RecipeDetailPage() {
                   className="flex justify-between items-center group bg-white/50 p-2 rounded ml-4"
                 >
                   <span className="flex-1">{item}</span>
-                  {/* --- MODIFICATION: Made delete visible on mobile, hover on desktop --- */}
                   <button
                     disabled={isSubmitting}
                     onClick={() =>
@@ -413,7 +413,6 @@ export default function RecipeDetailPage() {
                   >
                     <Trash2 size={16} />
                   </button>
-                  {/* --- END MODIFICATION --- */}
                 </li>
               ))}
             </ol>
@@ -455,7 +454,6 @@ export default function RecipeDetailPage() {
                       ({new Date(n.createdAt).toLocaleDateString()})
                     </span>
                   </div>
-                  {/* --- MODIFICATION: Made delete visible on mobile, hover on desktop --- */}
                   <button
                     disabled={isSubmitting}
                     onClick={() =>
@@ -465,7 +463,6 @@ export default function RecipeDetailPage() {
                   >
                     <Trash2 size={16} />
                   </button>
-                  {/* --- END MODIFICATION --- */}
                 </li>
               ))}
             </ul>
@@ -490,6 +487,20 @@ export default function RecipeDetailPage() {
               </button>
             </div>
           </section>
+          
+          {/* --- MODIFICATION: Added Preview Button --- */}
+          <div className="flex justify-center pt-4 pb-8">
+            <button
+              onClick={() => setIsPreviewOpen(true)}
+              disabled={isSubmitting}
+              className="px-6 py-3 flex items-center justify-center gap-2 cursor-pointer rounded-md bg-gradient-to-r from-[#4A90E2] to-[#357ABD] text-white shadow-lg hover:scale-105 transition-transform disabled:opacity-50"
+            >
+              <Eye size={20} />
+              Preview Full Recipe
+            </button>
+          </div>
+          {/* --- END MODIFICATION --- */}
+
         </div>
       </div>
 
@@ -523,6 +534,122 @@ export default function RecipeDetailPage() {
             </motion.div>
           </motion.div>
         )}
+
+        {/* --- MODIFICATION: Added Preview Modal --- */}
+        {isPreviewOpen && recipe && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsPreviewOpen(false)}
+            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          >
+            <button
+              onClick={() => setIsPreviewOpen(false)}
+              className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2 hover:bg-black/75 transition-colors z-50"
+            >
+              <X size={24} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-white text-[#5C3D2E] rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            >
+              <div className="p-6 md:p-8 space-y-4">
+                <h1 className="text-3xl font-bold mb-4 text-center">
+                  {recipe.name}
+                </h1>
+                
+                <img
+                  src={recipe.imageUrl}
+                  alt={recipe.name}
+                  className="w-full h-64 object-cover rounded-lg mb-4 shadow-md"
+                />
+
+                <div>
+                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
+                    📜 Description
+                  </h2>
+                  <p className="whitespace-pre-wrap leading-relaxed">
+                    {recipe.description || "No description provided."}
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
+                    🥕 Ingredients
+                  </h2>
+                  <ul className="list-disc list-inside space-y-1 pl-2">
+                    {(recipe.ingredients ?? []).length > 0 ? (
+                      (recipe.ingredients ?? []).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 italic">No ingredients listed.</p>
+                    )}
+                  </ul>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
+                    📖 Steps
+                  </h2>
+                  <ol className="list-decimal list-inside space-y-2 pl-2">
+                    {(recipe.steps ?? []).length > 0 ? (
+                      (recipe.steps ?? []).map((item, idx) => (
+                        <li key={idx} className="pl-2">{item}</li>
+                      ))
+                      ) : (
+                      <p className="text-gray-500 italic">No steps listed.</p>
+                    )}
+                  </ol>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
+                    📝 Notes
+                  </h2>
+                  <ul className="space-y-3">
+                    {(recipe.notes ?? []).length > 0 ? (
+                      (recipe.notes ?? []).map((n, idx) => (
+                        <li key={idx} className="border-b border-[#E0AB8B]/30 pb-2">
+                          <p className="whitespace-pre-wrap">{n.text}</p>
+                          <span className="block text-xs text-[#a88570] mt-1">
+                            ({new Date(n.createdAt).toLocaleDateString()})
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 italic">No notes added.</p>
+                    )}
+                  </ul>
+                </div>
+
+                {(recipe.gallery ?? []).length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
+                      🖼️ Gallery
+                    </h2>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                      {(recipe.gallery ?? []).map((img) => (
+                        <img
+                          key={img.public_id}
+                          src={img.url}
+                          alt="Gallery thumbnail"
+                          className="w-full h-24 object-cover rounded-md"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {/* --- END MODIFICATION --- */}
+        
       </AnimatePresence>
     </>
   );
