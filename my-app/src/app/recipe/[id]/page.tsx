@@ -200,7 +200,7 @@ export default function RecipeDetailPage() {
           </div>
 
           <section className="bg-[#FFEEE7] p-5 rounded-xl shadow-md border border-[#E0AB8B]/40">
-            <h2 className="text-2xl font-semibold mb-3 text-[#5C3D2E]">
+            <h2 className="text-xl font-semibold mb-3 text-[#5C3D2E]">
               🖼️ Gallery
             </h2>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
@@ -267,11 +267,11 @@ export default function RecipeDetailPage() {
                     setIsEditingTitle(false);
                     if (titleValue.trim()) updateRecipe({ name: titleValue });
                   }}
-                  className="text-3xl font-bold text-[#5C3D2E] bg-transparent border-b-2 border-[#E0AB8B] focus:outline-none w-full"
+                  className="text-xl font-bold text-[#5C3D2E] bg-transparent border-b-2 border-[#E0AB8B] focus:outline-none w-full"
                   autoFocus
                 />
               ) : (
-                <h1 className="text-3xl font-bold text-[#5C3D2E]">
+                <h1 className="text-xl font-bold text-[#5C3D2E]">
                   {recipe.name}
                 </h1>
               )}
@@ -339,32 +339,26 @@ export default function RecipeDetailPage() {
             </div>
             {/* --- END MODIFICATION --- */}
             
-            <button
-              onClick={() => updateRecipe({ action: "like" })}
-              disabled={isSubmitting}
-              className="bg-[#E0AB8B] cursor-pointer text-white px-5 py-2 rounded-lg shadow hover:bg-[#c89273] transition disabled:opacity-50"
-            >
-              ❤️ {recipe.likes}
-            </button>
+           
           </div>
 
           <section className="bg-[#FFEEE7] p-5 rounded-xl shadow-md border border-[#E0AB8B]/40">
-            <h2 className="text-2xl font-semibold mb-3 text-[#5C3D2E]">
+            <h2 className="text-xl font-semibold mb-3 text-[#5C3D2E]">
               🥕 Ingredients
             </h2>
             <ul className="list-inside space-y-2 text-[#5C3D2E]">
               {(recipe.ingredients ?? []).map((item, idx) => (
                 <li
                   key={idx}
-                  className="flex justify-between items-center group bg-white/50 p-2 rounded"
+                  className="flex justify-between items-center group bg-white/50 p-2 rounded "
                 >
-                  <span>- {item}</span>
+                  <span className=" w-[92%] break-words"> {item}</span>
                   <button
                     disabled={isSubmitting}
                     onClick={() =>
                       updateRecipe({ action: "delete-ingredient", index: idx })
                     }
-                    className="text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
+                    className="w-[5%] text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -394,22 +388,22 @@ export default function RecipeDetailPage() {
           </section>
 
           <section className="bg-[#FFEEE7] p-5 rounded-xl shadow-md border border-[#E0AB8B]/40">
-            <h2 className="text-2xl font-semibold mb-3 text-[#5C3D2E]">
+            <h2 className="text-xl font-semibold mb-3 text-[#5C3D2E]">
               📖 Steps
             </h2>
             <ol className="list-decimal list-inside space-y-2 text-[#5C3D2E]">
               {(recipe.steps ?? []).map((item, idx) => (
                 <li
                   key={idx}
-                  className="flex justify-between items-center group bg-white/50 p-2 rounded ml-4"
+                  className="flex justify-between items-center group bg-white/50 p-2 rounded"
                 >
-                  <span className="flex-1">{item}</span>
+                  <span className="flex-1 w-[92%] break-words">{item}</span>
                   <button
                     disabled={isSubmitting}
                     onClick={() =>
                       updateRecipe({ action: "delete-step", index: idx })
                     }
-                    className="text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
+                    className="w-[5%] text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -439,7 +433,7 @@ export default function RecipeDetailPage() {
           </section>
 
           <section className="bg-[#FFEEE7] p-5 rounded-xl shadow-md border border-[#E0AB8B]/40">
-            <h2 className="text-2xl font-semibold mb-3 text-[#5C3D2E]">
+            <h2 className="text-xl font-semibold mb-3 text-[#5C3D2E]">
               📝 Notes
             </h2>
             <ul className="space-y-3 text-[#5C3D2E]">
@@ -448,9 +442,9 @@ export default function RecipeDetailPage() {
                   key={idx}
                   className="flex justify-between items-start group border-b border-[#E0AB8B]/30 pb-2 bg-white/50 p-2 rounded"
                 >
-                  <div className="flex-1">
+                  <div className="flex-1 w-[92%] break-words">
                     {n.text}
-                    <span className="block text-xs text-[#a88570] mt-1">
+                    <span className="block text-xs text-[#a88570] mt-1 w-[92%] break-words">
                       ({new Date(n.createdAt).toLocaleDateString()})
                     </span>
                   </div>
@@ -459,7 +453,7 @@ export default function RecipeDetailPage() {
                     onClick={() =>
                       updateRecipe({ action: "delete-note", index: idx })
                     }
-                    className="text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
+                    className="w-[5%] text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity disabled:opacity-50 ml-2 flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -555,36 +549,35 @@ export default function RecipeDetailPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, y: 50 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-white text-[#5C3D2E] rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              className="relative bg-gradient-to-br from-[#ffeee7] via-[#fff4ef] to-[#ffeee7] text-[#5C3D2E] rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-scroll"
             >
-              <div className="p-6 md:p-8 space-y-4">
-                <h1 className="text-3xl font-bold mb-4 text-center">
-                  {recipe.name}
-                </h1>
-                
+              <div className="p-6 md:p-8 space-y-4 overflow-y-scroll">
                 <img
                   src={recipe.imageUrl}
                   alt={recipe.name}
                   className="w-full h-64 object-cover rounded-lg mb-4 shadow-md"
                 />
-
+                <h1 className="text-2xl font-extrabold">
+                  {recipe.name}
+                </h1>
+                
                 <div>
-                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
-                    📜 Description
+                  <h2 className="text-base font-[800] mt-2 mb-2">
+                    Description
                   </h2>
-                  <p className="whitespace-pre-wrap leading-relaxed">
+                  <p className="whitespace-pre-wrap leading-relaxed w-full break-words">
                     {recipe.description || "No description provided."}
                   </p>
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
-                    🥕 Ingredients
+                  <h2 className="text-base font-semibold mt-2 mb-2">
+                    Ingredients
                   </h2>
                   <ul className="list-disc list-inside space-y-1 pl-2">
                     {(recipe.ingredients ?? []).length > 0 ? (
                       (recipe.ingredients ?? []).map((item, idx) => (
-                        <li key={idx}>{item}</li>
+                        <li className="w-full break-words" key={idx}>{item}</li>
                       ))
                     ) : (
                       <p className="text-gray-500 italic">No ingredients listed.</p>
@@ -593,13 +586,13 @@ export default function RecipeDetailPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
-                    📖 Steps
+                  <h2 className="text-base font-[800] mt-2 mb-2">
+                  Steps
                   </h2>
                   <ol className="list-decimal list-inside space-y-2 pl-2">
                     {(recipe.steps ?? []).length > 0 ? (
                       (recipe.steps ?? []).map((item, idx) => (
-                        <li key={idx} className="pl-2">{item}</li>
+                        <li key={idx} className="w-full break-words">{item}</li>
                       ))
                       ) : (
                       <p className="text-gray-500 italic">No steps listed.</p>
@@ -608,14 +601,14 @@ export default function RecipeDetailPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
-                    📝 Notes
+                  <h2 className="text-base font-[800] mt-2 mb-2">
+                    Notes
                   </h2>
                   <ul className="space-y-3">
                     {(recipe.notes ?? []).length > 0 ? (
                       (recipe.notes ?? []).map((n, idx) => (
                         <li key={idx} className="border-b border-[#E0AB8B]/30 pb-2">
-                          <p className="whitespace-pre-wrap">{n.text}</p>
+                          <p className="whitespace-pre-wrap w-[92%] break-words">{n.text}</p>
                           <span className="block text-xs text-[#a88570] mt-1">
                             ({new Date(n.createdAt).toLocaleDateString()})
                           </span>
@@ -629,8 +622,8 @@ export default function RecipeDetailPage() {
 
                 {(recipe.gallery ?? []).length > 0 && (
                   <div>
-                    <h2 className="text-2xl font-semibold mt-6 mb-2 border-b-2 border-[#E0AB8B] pb-1">
-                      🖼️ Gallery
+                    <h2 className="text-base font-[800] mt-2 mb-2">
+                      Gallery
                     </h2>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                       {(recipe.gallery ?? []).map((img) => (
